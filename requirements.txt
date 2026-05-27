@@ -1,0 +1,30 @@
+# ═══════════════════════════════════════════════════════════════
+# Multi-Agent Dynamic Pricing — Requirements
+# Streamlit Cloud bilan to'liq mos versiyalar
+# ═══════════════════════════════════════════════════════════════
+
+# Streamlit va vizualizatsiya
+streamlit>=1.32.0
+plotly>=5.17.0
+matplotlib>=3.8.0
+seaborn>=0.13.0
+
+# Ma'lumotlar bilan ishlash
+pandas>=2.0.3
+numpy>=1.24.4,<2.0.0
+openpyxl>=3.1.2
+scipy>=1.11.3
+scikit-learn>=1.3.2
+
+# Reinforcement Learning
+gymnasium>=0.29.1
+stable-baselines3>=2.1.0
+pettingzoo>=1.24.3
+supersuit>=3.9.1
+torch>=2.0.1
+
+# Hiperparametr optimizatsiyasi
+optuna>=3.4.0
+
+# Yordamchi
+tqdm>=4.66.1

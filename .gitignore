@@ -1,0 +1,73 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Claude Code
+.claude/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Streamlit
+.streamlit/secrets.toml
+
+# ML / Training
+*.pkl
+*.h5
+*.pt
+*.pth
+*.ckpt
+runs/
+logs/
+tensorboard_logs/
+wandb/
+mlruns/
+
+# Models papkasi (faqat .gitkeep saqlanadi)
+models/*
+!models/.gitkeep
+
+# Data — katta fayllarni git'ga kiritmaslik
+data/*.xlsx
+data/*.parquet
+data/online_retail_II*
+!data/sample_data.csv
+!data/precomputed_results.json
+
+# OS
+Thumbs.db
+desktop.ini
+
+# Test va coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Build
+build/
+dist/
+*.spec
