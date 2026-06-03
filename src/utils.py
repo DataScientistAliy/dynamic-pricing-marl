@@ -282,22 +282,22 @@ def get_color_palette() -> Dict[str, str]:
     Algoritm rang assignment + UI rang doimiy bo'lishi uchun.
     """
     return {
-        # Algoritm ranglari
-        "PPO": "#00d4aa",       # teal — yashil-ko'k
-        "SAC": "#ffa500",       # to'q sariq
-        "DQN": "#6366f1",       # binafsha-ko'k
-        "Static": "#94a3b8",    # kulrang
+        # Algoritm ranglari — issiq, yorqin tona
+        "PPO": "#f97316",       # qoʻngʻir-toʻq sariq (eng yaxshi algoritm)
+        "SAC": "#a78bfa",       # yengil binafsha
+        "DQN": "#38bdf8",       # osmon koʻki
+        "Static": "#94a3b8",    # sovuq kulrang
         # UI brand ranglari
-        "primary": "#1e3a5f",
-        "secondary": "#00d4aa",
-        "accent": "#ff6b6b",
-        "background": "#0e1117",
-        "card_bg": "#1a2035",
-        "text": "#e2e8f0",
+        "primary": "#f97316",
+        "secondary": "#eab308",
+        "accent": "#ec4899",
+        "background": "#0b0e1a",
+        "card_bg": "#141928",
+        "text": "#f1f5f9",
         "text_muted": "#94a3b8",
-        "success": "#22c55e",
-        "warning": "#f59e0b",
-        "danger": "#ef4444",
+        "success": "#4ade80",
+        "warning": "#facc15",
+        "danger": "#f87171",
     }
 
 
@@ -305,27 +305,29 @@ def create_custom_css() -> str:
     """
     Streamlit uchun zamonaviy custom CSS qaytarish.
 
-    Glassmorphism, gradient, hover effektlari va animatsiyalar
-    bilan professional dizayn.
+    Yorqin, original dizayn — issiq ranglarda, kuchli tipografiya.
     """
     return """
     <style>
-    /* ═══════════ Asosiy font ═══════════ */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+    /* ═══════════ Shriftlar ═══════════ */
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
 
     html, body, [class*="css"] {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
     }
 
-    /* ═══════════ Asosiy fon ═══════════ */
+    /* ═══════════ Fon ═══════════ */
     .stApp {
-        background: radial-gradient(ellipse at top, #1a2035 0%, #0e1117 50%, #0a0e15 100%);
+        background: #0b0e1a;
+        background-image:
+            radial-gradient(ellipse 80% 50% at 20% 0%, rgba(249,115,22,0.12) 0%, transparent 55%),
+            radial-gradient(ellipse 60% 40% at 80% 100%, rgba(167,139,250,0.10) 0%, transparent 50%);
     }
 
     /* ═══════════ Sidebar ═══════════ */
     section[data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #1a2035 0%, #0e1117 100%);
-        border-right: 1px solid rgba(0, 212, 170, 0.15);
+        background: #080b14;
+        border-right: 1px solid rgba(249, 115, 22, 0.18);
     }
 
     section[data-testid="stSidebar"] .stMarkdown,
@@ -333,46 +335,59 @@ def create_custom_css() -> str:
         color: #e2e8f0 !important;
     }
 
-    /* ═══════════ Asosiy header — gradient matn ═══════════ */
+    section[data-testid="stSidebar"] hr {
+        border-color: rgba(249,115,22,0.15);
+    }
+
+    /* ═══════════ Hero sarlavha ═══════════ */
     .hero-title {
-        background: linear-gradient(135deg, #00d4aa 0%, #6366f1 50%, #ff6b6b 100%);
+        background: linear-gradient(125deg, #f97316 0%, #facc15 45%, #fb923c 100%);
         background-clip: text;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         font-weight: 800;
-        font-size: 3.5rem;
+        font-size: 3.2rem;
         line-height: 1.1;
         margin-bottom: 0.5rem;
-        letter-spacing: -0.02em;
+        letter-spacing: -0.025em;
     }
 
     .hero-subtitle {
         color: #94a3b8;
-        font-size: 1.25rem;
+        font-size: 1.15rem;
         font-weight: 400;
         margin-bottom: 2rem;
+        line-height: 1.7;
     }
 
     .section-title {
-        background: linear-gradient(90deg, #00d4aa 0%, #6366f1 100%);
-        background-clip: text;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: #f1f5f9;
         font-weight: 700;
-        font-size: 2rem;
-        margin: 2rem 0 1rem 0;
+        font-size: 1.75rem;
+        margin: 2rem 0 0.75rem 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .section-title::after {
+        content: '';
+        flex: 1;
+        height: 2px;
+        background: linear-gradient(90deg, rgba(249,115,22,0.6), transparent);
+        margin-left: 0.75rem;
+        border-radius: 2px;
     }
 
     /* ═══════════ Metric kartochka ═══════════ */
     .metric-card {
-        background: linear-gradient(135deg, rgba(26, 32, 53, 0.9) 0%, rgba(14, 17, 23, 0.9) 100%);
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(0, 212, 170, 0.2);
-        border-radius: 16px;
-        padding: 1.5rem;
-        margin: 0.5rem 0;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        background: #141928;
+        border-radius: 18px;
+        padding: 1.5rem 1.75rem;
+        margin: 0.4rem 0;
+        border: 1px solid rgba(255,255,255,0.06);
+        border-bottom: 3px solid transparent;
+        transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
         position: relative;
         overflow: hidden;
     }
@@ -380,259 +395,296 @@ def create_custom_css() -> str:
     .metric-card::before {
         content: '';
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: linear-gradient(90deg, #00d4aa, #6366f1, #ff6b6b);
+        inset: 0;
+        background: linear-gradient(145deg, rgba(249,115,22,0.05) 0%, transparent 60%);
+        pointer-events: none;
     }
 
     .metric-card:hover {
-        transform: translateY(-4px);
-        border-color: rgba(0, 212, 170, 0.45);
-        box-shadow: 0 12px 40px rgba(0, 212, 170, 0.2);
+        transform: translateY(-5px);
+        border-bottom-color: #f97316;
+        box-shadow: 0 16px 40px rgba(249, 115, 22, 0.18);
     }
 
     .metric-label {
-        color: #94a3b8;
-        font-size: 0.875rem;
-        font-weight: 500;
+        color: #64748b;
+        font-size: 0.78rem;
+        font-weight: 600;
         text-transform: uppercase;
-        letter-spacing: 0.05em;
-        margin-bottom: 0.5rem;
+        letter-spacing: 0.08em;
+        margin-bottom: 0.6rem;
     }
 
     .metric-value {
-        color: #e2e8f0;
-        font-size: 2.25rem;
-        font-weight: 700;
-        line-height: 1.1;
-        margin-bottom: 0.25rem;
+        color: #f97316;
+        font-size: 2.4rem;
+        font-weight: 800;
+        line-height: 1;
+        margin-bottom: 0.35rem;
+        font-family: 'Space Mono', monospace !important;
     }
 
     .metric-delta-up {
-        color: #22c55e;
-        font-size: 0.95rem;
+        color: #4ade80;
+        font-size: 0.82rem;
         font-weight: 600;
     }
 
     .metric-delta-down {
-        color: #ef4444;
-        font-size: 0.95rem;
+        color: #f87171;
+        font-size: 0.82rem;
         font-weight: 600;
     }
 
-    /* ═══════════ Tugma ═══════════ */
+    /* ═══════════ Tugmalar ═══════════ */
     .stButton > button {
-        background: linear-gradient(135deg, #00d4aa 0%, #00a385 100%);
-        color: #0e1117;
+        background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+        color: #fff;
         border: none;
-        border-radius: 10px;
-        padding: 0.625rem 1.5rem;
-        font-weight: 600;
-        transition: all 0.25s ease;
-        box-shadow: 0 4px 12px rgba(0, 212, 170, 0.25);
+        border-radius: 12px;
+        padding: 0.7rem 1.75rem;
+        font-weight: 700;
+        font-size: 0.95rem;
+        letter-spacing: 0.01em;
+        transition: all 0.22s ease;
+        box-shadow: 0 4px 16px rgba(249,115,22,0.3);
     }
 
     .stButton > button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(0, 212, 170, 0.4);
-        background: linear-gradient(135deg, #00e8bd 0%, #00b894 100%);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 28px rgba(249,115,22,0.45);
+        background: linear-gradient(135deg, #fb923c 0%, #f97316 100%);
     }
 
     .stButton > button:active {
-        transform: translateY(0);
+        transform: translateY(0px);
     }
 
-    /* ═══════════ Tab ═══════════ */
+    /* ═══════════ Tablar ═══════════ */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 8px;
-        background: rgba(26, 32, 53, 0.5);
-        padding: 0.5rem;
-        border-radius: 12px;
-        border: 1px solid rgba(0, 212, 170, 0.15);
+        gap: 6px;
+        background: #141928;
+        padding: 0.5rem 0.6rem;
+        border-radius: 14px;
+        border: 1px solid rgba(249,115,22,0.12);
     }
 
     .stTabs [data-baseweb="tab"] {
         background: transparent;
-        color: #94a3b8;
-        border-radius: 8px;
-        padding: 0.625rem 1.25rem;
-        font-weight: 500;
-        transition: all 0.2s ease;
+        color: #64748b;
+        border-radius: 10px;
+        padding: 0.55rem 1.1rem;
+        font-weight: 600;
+        font-size: 0.88rem;
+        transition: all 0.18s ease;
     }
 
     .stTabs [data-baseweb="tab"]:hover {
-        background: rgba(0, 212, 170, 0.08);
-        color: #e2e8f0;
+        background: rgba(249,115,22,0.08);
+        color: #f1f5f9;
     }
 
     .stTabs [aria-selected="true"] {
-        background: linear-gradient(135deg, rgba(0, 212, 170, 0.2), rgba(99, 102, 241, 0.2)) !important;
-        color: #00d4aa !important;
-        border: 1px solid rgba(0, 212, 170, 0.3);
+        background: linear-gradient(135deg, rgba(249,115,22,0.22), rgba(234,91,12,0.18)) !important;
+        color: #fb923c !important;
+        border: 1px solid rgba(249,115,22,0.35);
     }
 
     /* ═══════════ DataFrame ═══════════ */
     .stDataFrame {
-        border-radius: 12px;
+        border-radius: 14px;
         overflow: hidden;
-        border: 1px solid rgba(0, 212, 170, 0.15);
+        border: 1px solid rgba(249,115,22,0.12);
     }
 
     /* ═══════════ Slider ═══════════ */
     .stSlider [data-baseweb="slider"] [role="slider"] {
-        background: #00d4aa;
-        border: 2px solid #0e1117;
-        box-shadow: 0 2px 8px rgba(0, 212, 170, 0.4);
+        background: #f97316;
+        border: 2px solid #0b0e1a;
+        box-shadow: 0 0 12px rgba(249,115,22,0.5);
     }
 
     /* ═══════════ Selectbox ═══════════ */
     .stSelectbox > div > div {
-        background: rgba(26, 32, 53, 0.8);
-        border: 1px solid rgba(0, 212, 170, 0.2);
-        border-radius: 8px;
-        color: #e2e8f0;
+        background: #141928;
+        border: 1px solid rgba(249,115,22,0.2);
+        border-radius: 10px;
+        color: #f1f5f9;
     }
 
-    /* ═══════════ Agent card ═══════════ */
+    /* ═══════════ Agent kartochka ═══════════ */
     .agent-card {
-        background: linear-gradient(135deg, rgba(26, 32, 53, 0.95) 0%, rgba(20, 25, 42, 0.95) 100%);
-        border: 1px solid rgba(99, 102, 241, 0.2);
-        border-radius: 16px;
-        padding: 1.75rem;
-        margin: 0.75rem 0;
-        transition: all 0.3s ease;
+        background: #141928;
+        border: 1px solid rgba(255,255,255,0.07);
+        border-radius: 20px;
+        padding: 2rem 1.75rem;
+        margin: 0.5rem 0;
+        transition: all 0.28s ease;
         height: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .agent-card::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #f97316, #facc15);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s ease;
     }
 
     .agent-card:hover {
-        border-color: rgba(99, 102, 241, 0.5);
-        transform: translateY(-4px);
-        box-shadow: 0 12px 36px rgba(99, 102, 241, 0.15);
+        border-color: rgba(249,115,22,0.3);
+        transform: translateY(-5px);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    }
+
+    .agent-card:hover::after {
+        transform: scaleX(1);
     }
 
     .agent-icon {
-        font-size: 2.5rem;
+        font-size: 2.75rem;
         margin-bottom: 1rem;
         display: block;
+        line-height: 1;
     }
 
     .agent-title {
-        color: #e2e8f0;
-        font-size: 1.25rem;
+        color: #f1f5f9;
+        font-size: 1.2rem;
         font-weight: 700;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.6rem;
     }
 
     .agent-description {
         color: #94a3b8;
-        font-size: 0.9rem;
-        line-height: 1.6;
+        font-size: 0.88rem;
+        line-height: 1.65;
     }
 
     /* ═══════════ Badge ═══════════ */
     .badge {
         display: inline-block;
-        padding: 0.25rem 0.75rem;
-        border-radius: 999px;
-        font-size: 0.75rem;
-        font-weight: 600;
+        padding: 0.2rem 0.65rem;
+        border-radius: 6px;
+        font-size: 0.72rem;
+        font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.05em;
+        letter-spacing: 0.06em;
     }
 
     .badge-success {
-        background: rgba(34, 197, 94, 0.15);
-        color: #22c55e;
-        border: 1px solid rgba(34, 197, 94, 0.3);
+        background: rgba(74,222,128,0.12);
+        color: #4ade80;
+        border: 1px solid rgba(74,222,128,0.25);
     }
 
     .badge-info {
-        background: rgba(0, 212, 170, 0.15);
-        color: #00d4aa;
-        border: 1px solid rgba(0, 212, 170, 0.3);
+        background: rgba(249,115,22,0.12);
+        color: #fb923c;
+        border: 1px solid rgba(249,115,22,0.25);
     }
 
     .badge-warning {
-        background: rgba(245, 158, 11, 0.15);
-        color: #f59e0b;
-        border: 1px solid rgba(245, 158, 11, 0.3);
+        background: rgba(250,204,21,0.12);
+        color: #facc15;
+        border: 1px solid rgba(250,204,21,0.25);
+    }
+
+    .badge-purple {
+        background: rgba(167,139,250,0.12);
+        color: #a78bfa;
+        border: 1px solid rgba(167,139,250,0.25);
     }
 
     /* ═══════════ Footer ═══════════ */
     .footer {
         text-align: center;
-        color: #64748b;
-        padding: 2rem 0;
+        color: #334155;
+        padding: 2.5rem 0 1rem;
         margin-top: 4rem;
-        border-top: 1px solid rgba(0, 212, 170, 0.1);
-        font-size: 0.875rem;
+        border-top: 1px solid rgba(249,115,22,0.1);
+        font-size: 0.82rem;
     }
 
-    /* ═══════════ Streamlit standart elementlarini yashirish ═══════════ */
+    /* ═══════════ Streamlit elementlarini yashirish ═══════════ */
     #MainMenu { visibility: hidden; }
     footer { visibility: hidden; }
     header[data-testid="stHeader"] {
-        background: rgba(14, 17, 23, 0.7);
-        backdrop-filter: blur(10px);
+        background: rgba(11, 14, 26, 0.85);
     }
 
     /* ═══════════ Scrollbar ═══════════ */
-    ::-webkit-scrollbar {
-        width: 10px;
-        height: 10px;
-    }
-
-    ::-webkit-scrollbar-track {
-        background: #0e1117;
-    }
-
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #0b0e1a; }
     ::-webkit-scrollbar-thumb {
-        background: linear-gradient(180deg, #00d4aa, #6366f1);
-        border-radius: 10px;
+        background: linear-gradient(180deg, #f97316, #facc15);
+        border-radius: 8px;
     }
-
     ::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(180deg, #00e8bd, #818cf8);
+        background: linear-gradient(180deg, #fb923c, #fde047);
     }
 
     /* ═══════════ Animatsiyalar ═══════════ */
     @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
+        from { opacity: 0; transform: translateY(22px); }
+        to   { opacity: 1; transform: translateY(0); }
     }
 
-    .fade-in-up {
-        animation: fadeInUp 0.6s ease-out forwards;
+    .fade-in-up { animation: fadeInUp 0.55s ease-out forwards; }
+
+    @keyframes shimmer {
+        0%   { background-position: -200% center; }
+        100% { background-position:  200% center; }
     }
 
-    @keyframes pulse-glow {
-        0%, 100% { box-shadow: 0 0 20px rgba(0, 212, 170, 0.3); }
-        50% { box-shadow: 0 0 30px rgba(0, 212, 170, 0.6); }
+    .shimmer-text {
+        background: linear-gradient(90deg, #f97316 0%, #facc15 30%, #fb923c 60%, #f97316 100%);
+        background-size: 200% auto;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shimmer 3s linear infinite;
     }
 
-    .pulse-glow {
-        animation: pulse-glow 2s ease-in-out infinite;
-    }
-
-    /* ═══════════ Info quti ═══════════ */
+    /* ═══════════ Info qutisi ═══════════ */
     .info-box {
-        background: linear-gradient(135deg, rgba(0, 212, 170, 0.08) 0%, rgba(99, 102, 241, 0.08) 100%);
-        border-left: 4px solid #00d4aa;
-        border-radius: 8px;
+        background: rgba(249,115,22,0.06);
+        border-left: 4px solid #f97316;
+        border-radius: 0 12px 12px 0;
         padding: 1rem 1.25rem;
         margin: 1rem 0;
         color: #e2e8f0;
     }
 
     .warning-box {
-        background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(255, 107, 107, 0.08) 100%);
-        border-left: 4px solid #f59e0b;
-        border-radius: 8px;
+        background: rgba(250,204,21,0.06);
+        border-left: 4px solid #facc15;
+        border-radius: 0 12px 12px 0;
         padding: 1rem 1.25rem;
         margin: 1rem 0;
         color: #e2e8f0;
+    }
+
+    /* ═══════════ Stat row (hero ichidagi) ═══════════ */
+    .stat-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.18);
+        border-radius: 50px;
+        padding: 0.4rem 1rem;
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: #fff;
+        margin: 0.25rem;
     }
     </style>
     """
@@ -655,7 +707,7 @@ def format_percentage(value: float, decimals: int = 1) -> str:
 
 def get_plotly_template() -> Dict[str, Any]:
     """
-    Barcha plotly grafiklari uchun bir xil dark template.
+    Barcha plotly grafiklari uchun bir xil zamonaviy template.
 
     Returns
     -------
@@ -666,37 +718,45 @@ def get_plotly_template() -> Dict[str, Any]:
     return {
         "layout": {
             "paper_bgcolor": "rgba(0,0,0,0)",
-            "plot_bgcolor": "rgba(26, 32, 53, 0.4)",
+            "plot_bgcolor": "rgba(20, 25, 40, 0.5)",
             "font": {
-                "family": "Inter, -apple-system, sans-serif",
+                "family": "Plus Jakarta Sans, -apple-system, sans-serif",
                 "color": colors["text"],
                 "size": 13,
             },
             "xaxis": {
-                "gridcolor": "rgba(148, 163, 184, 0.1)",
-                "zerolinecolor": "rgba(148, 163, 184, 0.2)",
+                "gridcolor": "rgba(100, 116, 139, 0.12)",
+                "zerolinecolor": "rgba(100, 116, 139, 0.2)",
                 "color": colors["text_muted"],
+                "linecolor": "rgba(100,116,139,0.2)",
             },
             "yaxis": {
-                "gridcolor": "rgba(148, 163, 184, 0.1)",
-                "zerolinecolor": "rgba(148, 163, 184, 0.2)",
+                "gridcolor": "rgba(100, 116, 139, 0.12)",
+                "zerolinecolor": "rgba(100, 116, 139, 0.2)",
                 "color": colors["text_muted"],
+                "linecolor": "rgba(100,116,139,0.2)",
             },
             "legend": {
-                "bgcolor": "rgba(14, 17, 23, 0.7)",
-                "bordercolor": "rgba(0, 212, 170, 0.2)",
+                "bgcolor": "rgba(11, 14, 26, 0.75)",
+                "bordercolor": "rgba(249, 115, 22, 0.2)",
                 "borderwidth": 1,
                 "font": {"color": colors["text"]},
             },
             "colorway": [
-                colors["PPO"], colors["SAC"], colors["DQN"], colors["Static"],
-                "#ec4899", "#06b6d4", "#a855f7", "#f97316",
+                colors["PPO"],   # f97316 orange
+                colors["DQN"],   # 38bdf8 sky blue
+                colors["SAC"],   # a78bfa purple
+                colors["Static"],# 94a3b8 gray
+                "#f472b6",       # pink
+                "#34d399",       # emerald
+                "#60a5fa",       # blue
+                "#fbbf24",       # amber
             ],
-            "margin": {"l": 60, "r": 30, "t": 60, "b": 50},
+            "margin": {"l": 55, "r": 25, "t": 55, "b": 45},
             "hoverlabel": {
-                "bgcolor": "#1a2035",
-                "bordercolor": "#00d4aa",
-                "font": {"color": "#e2e8f0", "family": "Inter"},
+                "bgcolor": "#141928",
+                "bordercolor": "#f97316",
+                "font": {"color": "#f1f5f9", "family": "Plus Jakarta Sans"},
             },
         }
     }
