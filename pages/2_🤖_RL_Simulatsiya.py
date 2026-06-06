@@ -26,6 +26,7 @@ from src.utils import (
     load_precomputed_results,
     ensure_data_files_exist,
     format_currency,
+    show_progress_sidebar,
 )
 
 
@@ -44,6 +45,22 @@ st.markdown(create_custom_css(), unsafe_allow_html=True)
 
 COLORS = get_color_palette()
 PLOTLY_TEMPLATE = get_plotly_template()
+
+with st.sidebar:
+    st.markdown("""
+    <div style="padding:0.75rem 0 0.25rem;text-align:center;">
+      <div style="font-size:1rem;font-weight:800;color:#1c1917;">MARL Pricing</div>
+      <div style="color:#a8a29e;font-size:0.72rem;">TDIU 2026</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.markdown("---")
+    st.markdown(
+        "<p style='color:#a8a29e;font-size:0.7rem;font-weight:700;"
+        "text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.6rem;'>"
+        "Jarayon bosqichlari</p>",
+        unsafe_allow_html=True,
+    )
+    show_progress_sidebar(current_step=2)
 
 
 @st.cache_data(show_spinner=False)

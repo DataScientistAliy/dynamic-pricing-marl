@@ -1,8 +1,6 @@
 """
-Multi-Agent Dynamic Pricing — Streamlit bosh sahifa.
-
-Ishga tushirish:
-    $ streamlit run app.py
+Multi-Agent Dynamic Pricing — bosh sahifa.
+Ishga tushirish: streamlit run app.py
 """
 
 import sys
@@ -20,283 +18,178 @@ from src.utils import (
     get_color_palette,
     get_plotly_template,
     ensure_data_files_exist,
-    load_precomputed_results,
+    show_progress_sidebar,
 )
-
-# ═══════════════════════════════════════════════════════════════
-# Sahifa konfiguratsiyasi
-# ═══════════════════════════════════════════════════════════════
 
 st.set_page_config(
     page_title="Dynamic Pricing MARL | TDIU",
     page_icon="🔥",
     layout="wide",
     initial_sidebar_state="expanded",
-    menu_items={
-        "Get Help": "https://github.com/DataScientistAliy/dynamic-pricing-marl",
-        "About": "MARL Dynamic Pricing — TDIU BMI 2026",
-    },
 )
 
 ensure_data_files_exist()
 st.markdown(create_custom_css(), unsafe_allow_html=True)
-
 COLORS = get_color_palette()
 
 
-# ═══════════════════════════════════════════════════════════════
-# SIDEBAR
-# ═══════════════════════════════════════════════════════════════
-
+# ─── SIDEBAR ────────────────────────────────────────────────────
 with st.sidebar:
     st.markdown("""
-    <div style="padding: 1.25rem 0 0.75rem; text-align:center;">
-        <div style="
-            width: 56px; height: 56px;
-            background: linear-gradient(135deg,#f97316,#facc15);
-            border-radius: 16px;
-            display: inline-flex; align-items:center; justify-content:center;
-            font-size: 1.6rem; margin-bottom: 0.75rem;
-        ">🔥</div>
-        <div style="
-            font-size: 1.15rem;
-            font-weight: 800;
-            color: #f1f5f9;
-            letter-spacing: -0.02em;
-            line-height: 1.2;
-        ">MARL Pricing</div>
-        <div style="color: #475569; font-size: 0.78rem; margin-top: 0.2rem;">
-            Dinamik Narxlash Tizimi
-        </div>
+    <div style="padding:1rem 0 0.5rem; text-align:center;">
+      <div style="
+        width:52px; height:52px;
+        background:linear-gradient(135deg,#f97316,#fbbf24);
+        border-radius:14px;
+        display:inline-flex; align-items:center; justify-content:center;
+        font-size:1.5rem; margin-bottom:0.6rem;
+      ">🔥</div>
+      <div style="font-size:1.05rem;font-weight:800;color:#1c1917;letter-spacing:-0.02em;">
+        MARL Pricing
+      </div>
+      <div style="color:#a8a29e;font-size:0.75rem;margin-top:0.15rem;">
+        Dinamik Narxlash · TDIU 2026
+      </div>
     </div>
     """, unsafe_allow_html=True)
 
+    st.markdown("---")
+    st.markdown(
+        "<p style='color:#a8a29e;font-size:0.72rem;font-weight:700;"
+        "text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.75rem;'>"
+        "Jarayon bosqichlari</p>",
+        unsafe_allow_html=True,
+    )
+    show_progress_sidebar(current_step=0)
+
+    st.markdown("---")
     st.markdown("""
-    <div style="
-        background: rgba(249,115,22,0.08);
-        border: 1px solid rgba(249,115,22,0.18);
-        border-radius: 12px;
-        padding: 0.9rem 1rem;
-        margin: 0.5rem 0 1rem;
-    ">
-        <div style="color:#fb923c; font-size:0.78rem; font-weight:700; margin-bottom:0.4rem; text-transform:uppercase; letter-spacing:0.06em;">
-            📌 Loyiha
-        </div>
-        <div style="color:#94a3b8; font-size:0.82rem; line-height:1.5;">
-            BMI: RL orqali e-commerce platformalari
-            uchun intellektual narx optimizatsiyasi.
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("""
-    <div style="color:#64748b; font-size:0.75rem; font-weight:700;
-                text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.6rem;">
-        Sahifalar
-    </div>
-    """, unsafe_allow_html=True)
-
-    nav_items = [
-        ("📊", "EDA va Dataset", "Ma'lumotlar tahlili"),
-        ("🤖", "RL Simulatsiya",  "Interaktiv demo"),
-        ("📈", "Natijalar",      "Algoritmlar taqqoslash"),
-        ("🔬", "Statistik Tahlil","Testlar & Cohen's d"),
-        ("🗺️", "Tavsiyalar",      "Biznes yo'l xaritasi"),
-    ]
-
-    for icon, title, desc in nav_items:
-        st.markdown(f"""
-        <div style="
-            display:flex; align-items:center; gap:0.65rem;
-            padding:0.55rem 0.75rem;
-            border-radius:10px;
-            margin-bottom:0.2rem;
-            border: 1px solid transparent;
-            transition: all 0.15s;
-        " onmouseover="this.style.background='rgba(249,115,22,0.06)'"
-          onmouseout="this.style.background='transparent'">
-            <span style="font-size:1.1rem;">{icon}</span>
-            <div>
-                <div style="color:#e2e8f0; font-size:0.85rem; font-weight:600;">{title}</div>
-                <div style="color:#475569; font-size:0.73rem;">{desc}</div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-    st.markdown("""
-    <div style="
-        margin-top: 1.5rem;
-        padding-top: 1rem;
-        border-top: 1px solid rgba(249,115,22,0.1);
-        text-align:center;
-        color:#334155;
-        font-size:0.73rem;
-    ">
-        <strong style="color:#475569;">TDIU · Data Science</strong><br>
-        Bitiruv Malakaviy Ishi · 2026
+    <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;
+                padding:0.8rem;margin-top:0.25rem;">
+      <div style="color:#ea580c;font-size:0.72rem;font-weight:700;margin-bottom:0.3rem;
+                  text-transform:uppercase;letter-spacing:0.06em;">Loyiha</div>
+      <div style="color:#78716c;font-size:0.78rem;line-height:1.5;">
+        BMI: RL orqali e-commerce uchun intellektual narx optimizatsiyasi.
+      </div>
     </div>
     """, unsafe_allow_html=True)
 
 
-# ═══════════════════════════════════════════════════════════════
-# HERO BANNER — katta, rangli blok
-# ═══════════════════════════════════════════════════════════════
-
+# ─── HERO BANNER ────────────────────────────────────────────────
 st.markdown("""
 <div style="
-    background: linear-gradient(135deg, #1c0a00 0%, #2d1200 30%, #1a0e2e 70%, #0b0e1a 100%);
-    border: 1px solid rgba(249,115,22,0.25);
-    border-radius: 24px;
-    padding: 3.25rem 3rem 3rem;
-    margin-bottom: 2rem;
-    position: relative;
-    overflow: hidden;
+  background:linear-gradient(135deg, #7c2d12 0%, #9a3412 35%, #431407 70%, #1c0a00 100%);
+  border-radius:20px;
+  padding:3rem 3rem 2.75rem;
+  margin-bottom:1.75rem;
+  position:relative;
+  overflow:hidden;
 ">
-    <!-- Dekorativ doiralar -->
-    <div style="
-        position:absolute; top:-60px; right:-60px;
-        width:260px; height:260px;
-        background: radial-gradient(circle, rgba(249,115,22,0.18) 0%, transparent 70%);
-        border-radius:50%;
-    "></div>
-    <div style="
-        position:absolute; bottom:-80px; left:30%;
-        width:320px; height:320px;
-        background: radial-gradient(circle, rgba(167,139,250,0.10) 0%, transparent 70%);
-        border-radius:50%;
-    "></div>
-
-    <!-- Badgelar -->
-    <div style="margin-bottom:1rem; position:relative;">
-        <span class="badge badge-info">v1.0.0</span>&nbsp;
-        <span class="badge badge-success">BMI 2026</span>&nbsp;
-        <span class="badge badge-purple">TDIU · Data Science</span>
+  <div style="
+    position:absolute;top:-40px;right:-40px;
+    width:220px;height:220px;
+    background:radial-gradient(circle,rgba(251,191,36,0.2) 0%,transparent 70%);
+    border-radius:50%;
+  "></div>
+  <div style="
+    position:absolute;bottom:-60px;left:40%;
+    width:280px;height:280px;
+    background:radial-gradient(circle,rgba(249,115,22,0.15) 0%,transparent 70%);
+    border-radius:50%;
+  "></div>
+  <div style="position:relative;">
+    <div style="margin-bottom:0.9rem;">
+      <span class="badge badge-info">v1.0.0</span>&nbsp;
+      <span class="badge badge-success">BMI 2026</span>&nbsp;
+      <span class="badge badge-purple">TDIU · Data Science</span>
     </div>
-
-    <!-- Sarlavha -->
     <h1 style="
-        color: #fff;
-        font-size: 3rem;
-        font-weight: 900;
-        line-height: 1.1;
-        margin: 0 0 0.75rem;
-        letter-spacing: -0.03em;
-        position:relative;
+      color:#fff;font-size:2.75rem;font-weight:900;
+      line-height:1.1;margin:0 0 0.7rem;letter-spacing:-0.03em;
     ">
-        Multi-Agent RL<br>
-        <span style="
-            background: linear-gradient(125deg, #f97316, #facc15, #fb923c);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        ">Dinamik Narxlash</span>
+      Multi-Agent RL<br>
+      <span style="
+        background:linear-gradient(125deg,#fbbf24,#f97316,#fb923c);
+        background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      ">Dinamik Narxlash</span>
     </h1>
-
-    <p style="
-        color: rgba(255,255,255,0.65);
-        font-size: 1.1rem;
-        margin-bottom: 1.75rem;
-        max-width: 600px;
-        position:relative;
-    ">
-        E-commerce platformalari uchun kuchaytirilgan o'qitish (MARL) algoritmlari
-        yordamida intellektual narx optimallashtirish tizimi.
+    <p style="color:rgba(255,255,255,0.65);font-size:1rem;margin-bottom:1.5rem;max-width:580px;">
+      E-commerce platformalari uchun kuchaytirilgan o'qitish (MARL) algoritmlari
+      yordamida intellektual narx optimallashtirish tizimi.
     </p>
-
-    <!-- Natijalar chiplari -->
-    <div style="display:flex; flex-wrap:wrap; gap:0.5rem; position:relative;">
-        <span class="stat-chip">📈 +37.5% Daromad</span>
-        <span class="stat-chip">❤️ +42% Sodiqlik</span>
-        <span class="stat-chip">📉 −54% Churn</span>
-        <span class="stat-chip">✅ p &lt; 0.001</span>
-        <span class="stat-chip">🔬 n=30 tajriba</span>
+    <div>
+      <span class="stat-chip">📈 +37.5% Daromad</span>
+      <span class="stat-chip">❤️ +42% Sodiqlik</span>
+      <span class="stat-chip">📉 -54% Churn</span>
+      <span class="stat-chip">p &lt; 0.001</span>
+      <span class="stat-chip">n=30 tajriba</span>
     </div>
+  </div>
 </div>
 """, unsafe_allow_html=True)
 
 
-# ═══════════════════════════════════════════════════════════════
-# 4 ta KPI METRIC KARTA
-# ═══════════════════════════════════════════════════════════════
-
+# ─── KPI KARTALAR ───────────────────────────────────────────────
 col1, col2, col3, col4 = st.columns(4, gap="medium")
 
-kpi_data = [
-    ("💰", "Daromad o'sishi", "+37.5%", "↗ Statik baseline'ga nisbatan"),
-    ("❤️", "Mijoz sodiqligi", "+42%",   "↗ Loyalty indeksi oshdi"),
-    ("🚪", "Churn kamayishi", "−54%",   "↗ Yo'qotishlar minimallashdi"),
-    ("📊", "Stat. ahamiyat",  "p<0.001","↗ n=30 · Welch t-test"),
+kpi = [
+    ("💰", "Daromad o'sishi",  "+37.5%", "↗ Statik baseline'ga nisbatan"),
+    ("❤️", "Mijoz sodiqligi",  "+42%",   "↗ Loyalty indeksi oshdi"),
+    ("🚪", "Churn kamayishi",  "−54%",   "↗ Yo'qotishlar minimallashdi"),
+    ("📊", "Stat. ahamiyat",   "p<0.001","↗ Welch t-test · n=30"),
 ]
-
-for col, (icon, label, value, delta) in zip([col1, col2, col3, col4], kpi_data):
+for col, (icon, label, val, delta) in zip([col1, col2, col3, col4], kpi):
     with col:
         st.markdown(f"""
         <div class="metric-card">
-            <div style="font-size:1.75rem; margin-bottom:0.5rem; line-height:1;">{icon}</div>
-            <div class="metric-label">{label}</div>
-            <div class="metric-value">{value}</div>
-            <div class="metric-delta-up">{delta}</div>
+          <div style="font-size:1.6rem;margin-bottom:0.4rem;">{icon}</div>
+          <div class="metric-label">{label}</div>
+          <div class="metric-value">{val}</div>
+          <div class="metric-delta-up">{delta}</div>
         </div>
         """, unsafe_allow_html=True)
 
 
-# ═══════════════════════════════════════════════════════════════
-# ARXITEKTURA DIAGRAMMASI
-# ═══════════════════════════════════════════════════════════════
-
+# ─── ARXITEKTURA ────────────────────────────────────────────────
 st.markdown("<br>", unsafe_allow_html=True)
 st.markdown('<h2 class="section-title">🏗️ Tizim Arxitekturasi</h2>', unsafe_allow_html=True)
-st.markdown(
-    "<p style='color:#64748b; font-size:0.9rem; margin-bottom:1rem;'>"
-    "3 ta mustaqil RL agent bir muhitda o'zaro ta'sir qiladi va optimal narx strategiyasini o'rganadi."
-    "</p>",
-    unsafe_allow_html=True,
-)
+st.caption("3 ta mustaqil RL agent bir muhitda o'zaro ta'sir qilib optimal narx strategiyasini o'rganadi.")
 
 
-def build_architecture_diagram() -> go.Figure:
-    """Arxitektura flow diagrammasi."""
+def build_arch_fig() -> go.Figure:
     fig = go.Figure()
     tmpl = get_plotly_template()
 
     nodes = [
-        (0.50, 0.92, "📦  Online Retail II Dataset<br><sup>1M+ tranzaksiya, UK Retail</sup>",    "#f97316", 70),
-        (0.50, 0.72, "⚙️  Preprocessing Pipeline<br><sup>RFM · Elastiklik · Tozalash</sup>",    "#facc15", 58),
-        (0.18, 0.45, "🎯  Pricing Agent<br><sup>PPO / DQN / SAC</sup>",                          "#f97316", 68),
-        (0.50, 0.45, "👤  Customer Agent<br><sup>Talab modeli</sup>",                             "#38bdf8", 65),
-        (0.82, 0.45, "🏪  Competitor Agent<br><sup>Raqobat simulyatsiya</sup>",                   "#a78bfa", 65),
-        (0.50, 0.20, "🌐  MARL Muhiti<br><sup>Gymnasium · PettingZoo AEC</sup>",                 "#34d399", 62),
-        (0.50, 0.03, "🏆  Reward:  R = 0.7·rev + 0.3·loyalty·100",                               "#fb923c", 52),
+        (0.50, 0.92, "📦 Online Retail II\n1M+ tranzaksiya",     "#ea580c", 70),
+        (0.50, 0.72, "⚙️ Preprocessing\nRFM · Elastiklik",       "#d97706", 56),
+        (0.18, 0.45, "🎯 Pricing Agent\nPPO / DQN / SAC",        "#ea580c", 66),
+        (0.50, 0.45, "👤 Customer Agent\nTalab modeli",           "#0284c7", 62),
+        (0.82, 0.45, "🏪 Competitor Agent\nRaqobat sim.",         "#7c3aed", 62),
+        (0.50, 0.20, "🌐 MARL Muhiti\nGymnasium · PettingZoo",   "#059669", 60),
+        (0.50, 0.03, "🏆 R = 0.7·rev + 0.3·loyalty·100",         "#d97706", 50),
     ]
-
     edges = [(0,1),(1,2),(1,3),(1,4),(2,5),(3,5),(4,5),(5,6)]
 
     for s, d in edges:
-        x0, y0 = nodes[s][0], nodes[s][1]
-        x1, y1 = nodes[d][0], nodes[d][1]
         fig.add_trace(go.Scatter(
-            x=[x0, x1], y=[y0, y1], mode="lines",
-            line=dict(color="rgba(249,115,22,0.3)", width=2.5),
+            x=[nodes[s][0], nodes[d][0]], y=[nodes[s][1], nodes[d][1]],
+            mode="lines",
+            line=dict(color="rgba(249,115,22,0.35)", width=2.5),
             hoverinfo="skip", showlegend=False,
         ))
-
-    for x, y, label, color, size in nodes:
+    for x, y, lbl, col, sz in nodes:
         fig.add_trace(go.Scatter(
-            x=[x], y=[y],
-            mode="markers+text",
-            marker=dict(size=size, color=color, opacity=0.9,
-                        line=dict(color="rgba(255,255,255,0.15)", width=2)),
-            text=[label],
-            textposition="middle center",
-            textfont=dict(color="white", size=11, family="Plus Jakarta Sans"),
-            hovertext=[label.replace("<br>", " ").replace("<sup>","(").replace("</sup>",")")],
-            hoverinfo="text",
-            showlegend=False,
+            x=[x], y=[y], mode="markers+text",
+            marker=dict(size=sz, color=col, opacity=0.85,
+                        line=dict(color="rgba(255,255,255,0.5)", width=2)),
+            text=[lbl], textposition="middle center",
+            textfont=dict(color="white", size=10.5, family="Plus Jakarta Sans"),
+            hoverinfo="text", showlegend=False,
         ))
 
     fig.update_layout(
-        height=560,
-        showlegend=False,
+        height=530, showlegend=False,
         xaxis=dict(visible=False, range=[-0.05, 1.05]),
         yaxis=dict(visible=False, range=[-0.05, 1.0]),
         **tmpl["layout"],
@@ -305,287 +198,189 @@ def build_architecture_diagram() -> go.Figure:
     return fig
 
 
-st.plotly_chart(build_architecture_diagram(), use_container_width=True)
+st.plotly_chart(build_arch_fig(), use_container_width=True)
 
 
-# ═══════════════════════════════════════════════════════════════
-# 3 ta AGENT KARTASI
-# ═══════════════════════════════════════════════════════════════
-
+# ─── AGENTLAR ───────────────────────────────────────────────────
 st.markdown('<h2 class="section-title">🤖 Intellektual Agentlar</h2>', unsafe_allow_html=True)
 
 ac1, ac2, ac3 = st.columns(3, gap="medium")
-
-agents = [
-    (
-        "🎯", "Pricing Agent", COLORS["PPO"],
-        "Sotuvchi tomonidagi asosiy RL agent. "
-        "Narxni episod davomida <strong style='color:#fb923c;'>±5%, ±10%, ±15%</strong> "
-        "qadam bilan o'zgartiradi. 7 ta diskret harakat maydoni.",
-        ["PPO", "DQN", "SAC"], "badge-info",
-    ),
-    (
-        "👤", "Customer Agent", COLORS["DQN"],
-        "Mijoz xulqini modellashtiradi — narxga sezgirlik, "
-        "byudjet, qulaylik. Uch xil qaror: "
-        "<strong style='color:#38bdf8;'>Sotib olish</strong>, Kutish, Tark etish.",
-        ["Utility model", "Price elasticity"], "badge-info",
-    ),
-    (
-        "🏪", "Competitor Agent", COLORS["SAC"],
-        "Raqobatchi platformani simulyatsiya qiladi. "
-        "Bozor ulushi va narx nisbatini kuzatib "
-        "<strong style='color:#a78bfa;'>5 ta strategiya</strong>dan birini tanlaydi.",
-        ["Market share", "Price ratio"], "badge-info",
-    ),
+agents_data = [
+    ("🎯", "Pricing Agent", COLORS["PPO"],
+     "Sotuvchi RL agenti. Narxni episod davomida "
+     "<strong style='color:#ea580c;'>±5%, ±10%, ±15%</strong> "
+     "qadam bilan o'zgartiradi. 7 ta diskret harakat.",
+     ["PPO", "DQN", "SAC"]),
+    ("👤", "Customer Agent", COLORS["DQN"],
+     "Mijoz xulqini modellashtiradi. Narxga sezgirlik, "
+     "byudjet va qulaylikni inobatga oladi. "
+     "<strong style='color:#0284c7;'>3 qaror:</strong> Sotib olish, Kutish, Tark etish.",
+     ["Utility model", "Elasticity"]),
+    ("🏪", "Competitor Agent", COLORS["SAC"],
+     "Raqobatchi simulyatsiya. Bozor ulushi va narx nisbatini "
+     "kuzatib <strong style='color:#7c3aed;'>5 strategiya</strong>dan birini tanlaydi.",
+     ["Market share", "Price ratio"]),
 ]
-
-for col, (icon, title, color, desc, tags, badge_cls) in zip([ac1, ac2, ac3], agents):
-    tags_html = " ".join(f'<span class="badge {badge_cls}">{t}</span>' for t in tags)
+for col, (icon, title, color, desc, tags) in zip([ac1, ac2, ac3], agents_data):
+    tags_html = " ".join(
+        f'<span class="badge badge-info" style="margin:0.1rem;">{t}</span>' for t in tags
+    )
     with col:
         st.markdown(f"""
         <div class="agent-card">
-            <span class="agent-icon">{icon}</span>
-            <h3 class="agent-title" style="color:{color};">{title}</h3>
-            <p class="agent-description">{desc}</p>
-            <div style="margin-top:1.1rem; padding-top:0.9rem;
-                        border-top:1px solid rgba(255,255,255,0.06);">
-                {tags_html}
-            </div>
+          <span class="agent-icon">{icon}</span>
+          <h3 class="agent-title" style="color:{color};">{title}</h3>
+          <p class="agent-description">{desc}</p>
+          <div style="margin-top:1rem;padding-top:0.8rem;border-top:1px solid #ffedd5;">
+            {tags_html}
+          </div>
         </div>
         """, unsafe_allow_html=True)
 
 
-# ═══════════════════════════════════════════════════════════════
-# REWARD FORMULASI
-# ═══════════════════════════════════════════════════════════════
-
+# ─── REWARD FORMULASI ───────────────────────────────────────────
 st.markdown("<br>", unsafe_allow_html=True)
 st.markdown('<h2 class="section-title">⚖️ Reward Funksiyasi</h2>', unsafe_allow_html=True)
 
 st.markdown("""
 <div style="
-    background: #141928;
-    border: 1px solid rgba(249,115,22,0.18);
-    border-radius: 18px;
-    padding: 2rem 2.25rem;
-    text-align: center;
+  background:#ffffff;border:1px solid #ffedd5;
+  border-radius:16px;padding:1.75rem 2rem;
+  box-shadow:0 2px 10px rgba(249,115,22,0.07);
+  text-align:center;
 ">
-    <div style="
-        font-size: 2rem;
-        font-family: 'Space Mono', monospace;
-        margin: 0.5rem 0 1rem;
-        letter-spacing: 0.02em;
-    ">
-        <span style="color:#f87171; font-weight:700;">R</span>
-        <span style="color:#64748b;"> = </span>
-        <span style="color:#f97316; font-weight:700;">α</span>
-        <span style="color:#64748b;"> · revenue</span><sub style="color:#64748b;">norm</sub>
-        <span style="color:#64748b;">  +  </span>
-        <span style="color:#a78bfa; font-weight:700;">β</span>
-        <span style="color:#64748b;"> · loyalty</span><sub style="color:#64748b;">Δ</sub>
-        <span style="color:#64748b;"> · 100</span>
+  <div style="
+    font-size:1.8rem;font-family:'Space Grotesk',sans-serif;
+    margin-bottom:1.25rem;
+    color:#1c1917;
+    letter-spacing:0.01em;
+  ">
+    <span style="color:#dc2626;font-weight:800;">R</span>
+    <span style="color:#a8a29e;"> = </span>
+    <span style="color:#ea580c;font-weight:700;">α</span>
+    <span style="color:#78716c;"> · revenue</span>
+    <sub style="color:#a8a29e;font-size:0.6em;">norm</sub>
+    <span style="color:#78716c;">  +  </span>
+    <span style="color:#7c3aed;font-weight:700;">β</span>
+    <span style="color:#78716c;"> · loyalty</span>
+    <sub style="color:#a8a29e;font-size:0.6em;">delta</sub>
+    <span style="color:#78716c;"> · 100</span>
+  </div>
+  <div style="display:flex;justify-content:center;gap:1.25rem;flex-wrap:wrap;">
+    <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:12px;padding:0.7rem 1.4rem;">
+      <div style="color:#a8a29e;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.07em;">Daromad</div>
+      <div style="color:#ea580c;font-size:1.4rem;font-weight:800;font-family:'Space Grotesk',sans-serif;">α = 0.7</div>
     </div>
-    <div style="
-        display:flex; justify-content:center; gap:2rem; flex-wrap:wrap;
-        margin-top:0.75rem;
-    ">
-        <div style="
-            background: rgba(249,115,22,0.08); border:1px solid rgba(249,115,22,0.2);
-            border-radius:12px; padding:0.75rem 1.5rem;
-        ">
-            <div style="color:#64748b; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.07em;">
-                Daromad koeffitsienti
-            </div>
-            <div style="color:#f97316; font-size:1.4rem; font-weight:800;
-                        font-family:'Space Mono',monospace;">
-                α = 0.7
-            </div>
-        </div>
-        <div style="
-            background: rgba(167,139,250,0.08); border:1px solid rgba(167,139,250,0.2);
-            border-radius:12px; padding:0.75rem 1.5rem;
-        ">
-            <div style="color:#64748b; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.07em;">
-                Sodiqlik koeffitsienti
-            </div>
-            <div style="color:#a78bfa; font-size:1.4rem; font-weight:800;
-                        font-family:'Space Mono',monospace;">
-                β = 0.3
-            </div>
-        </div>
-        <div style="
-            background: rgba(74,222,128,0.08); border:1px solid rgba(74,222,128,0.2);
-            border-radius:12px; padding:0.75rem 1.5rem;
-        ">
-            <div style="color:#64748b; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.07em;">
-                Sezgirlik tahlili
-            </div>
-            <div style="color:#4ade80; font-size:1.4rem; font-weight:800;
-                        font-family:'Space Mono',monospace;">
-                Grid search
-            </div>
-        </div>
+    <div style="background:#f5f3ff;border:1px solid #ddd6fe;border-radius:12px;padding:0.7rem 1.4rem;">
+      <div style="color:#a8a29e;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.07em;">Sodiqlik</div>
+      <div style="color:#7c3aed;font-size:1.4rem;font-weight:800;font-family:'Space Grotesk',sans-serif;">β = 0.3</div>
     </div>
+    <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:0.7rem 1.4rem;">
+      <div style="color:#a8a29e;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.07em;">Sezgirlik</div>
+      <div style="color:#16a34a;font-size:1.4rem;font-weight:800;font-family:'Space Grotesk',sans-serif;">Grid ✓</div>
+    </div>
+  </div>
 </div>
 """, unsafe_allow_html=True)
 
 
-# ═══════════════════════════════════════════════════════════════
-# DEMO CTA
-# ═══════════════════════════════════════════════════════════════
-
+# ─── NATIJALAR JADVALI ──────────────────────────────────────────
 st.markdown("<br>", unsafe_allow_html=True)
+st.markdown('<h2 class="section-title">📊 Asosiy Natijalar</h2>', unsafe_allow_html=True)
 
-left_sp, cta_c, right_sp = st.columns([1, 2, 1])
-with cta_c:
+rows = [
+    ("🥇 PPO",    "#ea580c", "38,672 ±1,756", "0.713 ±0.048", "0.083", "0.687", True),
+    ("🥈 SAC",    "#7c3aed", "36,141 ±2,478", "0.652 ±0.069", "0.103", "0.589", False),
+    ("🥉 DQN",    "#0284c7", "34,987 ±2,184", "0.621 ±0.058", "0.124", "0.521", False),
+    ("— Static",  "#78716c", "28,134 ±1,478", "0.502 ±0.041", "0.182", "0.214", False),
+]
+
+tbl = """
+<div style="background:#ffffff;border:1px solid #ffedd5;border-radius:16px;
+            overflow:hidden;box-shadow:0 2px 10px rgba(249,115,22,0.07);">
+<table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
+  <thead>
+    <tr style="background:#fff7ed;border-bottom:2px solid #ffedd5;">
+      <th style="padding:0.8rem 1.2rem;text-align:left;color:#a8a29e;font-size:0.72rem;
+                 text-transform:uppercase;letter-spacing:0.07em;">Algoritm</th>
+      <th style="padding:0.8rem 1rem;text-align:right;color:#a8a29e;font-size:0.72rem;
+                 text-transform:uppercase;letter-spacing:0.07em;">Daromad (£)</th>
+      <th style="padding:0.8rem 1rem;text-align:right;color:#a8a29e;font-size:0.72rem;
+                 text-transform:uppercase;letter-spacing:0.07em;">Sodiqlik</th>
+      <th style="padding:0.8rem 1rem;text-align:right;color:#a8a29e;font-size:0.72rem;
+                 text-transform:uppercase;letter-spacing:0.07em;">Churn</th>
+      <th style="padding:0.8rem 1rem;text-align:right;color:#a8a29e;font-size:0.72rem;
+                 text-transform:uppercase;letter-spacing:0.07em;">HV</th>
+    </tr>
+  </thead>
+  <tbody>
+"""
+for name, color, rev, loy, churn, hv, best in rows:
+    bg = "background:#fff7ed;" if best else ("background:#fafaf9;" if rows.index((name,color,rev,loy,churn,hv,best))%2 else "")
+    star = " ⭐" if best else ""
+    tbl += f"""
+    <tr style="border-bottom:1px solid #f5f5f4;{bg}">
+      <td style="padding:0.85rem 1.2rem;">
+        <span style="color:{color};font-weight:700;">{name}{star}</span>
+      </td>
+      <td style="padding:0.85rem 1rem;text-align:right;color:#1c1917;font-weight:500;">{rev}</td>
+      <td style="padding:0.85rem 1rem;text-align:right;color:#1c1917;font-weight:500;">{loy}</td>
+      <td style="padding:0.85rem 1rem;text-align:right;color:#1c1917;font-weight:500;">{churn}</td>
+      <td style="padding:0.85rem 1rem;text-align:right;color:{color};font-weight:700;">{hv}</td>
+    </tr>
+    """
+tbl += "</tbody></table></div>"
+st.markdown(tbl, unsafe_allow_html=True)
+
+
+# ─── DEMO CTA ───────────────────────────────────────────────────
+st.markdown("<br>", unsafe_allow_html=True)
+_, cta, _ = st.columns([1, 2, 1])
+with cta:
     st.markdown("""
     <div style="
-        background: linear-gradient(135deg, rgba(249,115,22,0.08), rgba(167,139,250,0.08));
-        border: 1px solid rgba(249,115,22,0.25);
-        border-radius: 20px;
-        padding: 2.25rem;
-        text-align: center;
-        margin-bottom: 1rem;
+      background:linear-gradient(135deg,#fff7ed,#fef3c7);
+      border:1px solid #fed7aa;border-radius:16px;
+      padding:2rem;text-align:center;margin-bottom:1rem;
     ">
-        <div style="font-size:2.5rem; margin-bottom:0.5rem;">🚀</div>
-        <h3 style="color:#f1f5f9; margin:0 0 0.75rem; font-size:1.25rem; font-weight:700;">
-            Simulyatsiyani Sinab Ko'ring
-        </h3>
-        <p style="color:#64748b; font-size:0.88rem; margin:0 0 1.25rem;">
-            Interaktiv graflar orqali algoritmlar qanday ishlashini real vaqtda kuzating.
-        </p>
+      <div style="font-size:2.2rem;margin-bottom:0.4rem;">🚀</div>
+      <h3 style="color:#1c1917;margin:0 0 0.6rem;font-size:1.15rem;font-weight:700;">
+        Simulyatsiyani Sinab Ko'ring
+      </h3>
+      <p style="color:#78716c;font-size:0.85rem;margin:0 0 1rem;">
+        Real vaqtda algoritmlar qanday ishlashini kuzating.
+      </p>
     </div>
     """, unsafe_allow_html=True)
-
     if st.button("▶  Demo'ni Boshlash", use_container_width=True, type="primary"):
         st.switch_page("pages/2_🤖_RL_Simulatsiya.py")
 
 
-# ═══════════════════════════════════════════════════════════════
-# ALGORITMLAR NATIJASI — qisqa taqqoslash jadvali
-# ═══════════════════════════════════════════════════════════════
-
-st.markdown("<br>", unsafe_allow_html=True)
-st.markdown('<h2 class="section-title">📊 Asosiy Natijalar</h2>', unsafe_allow_html=True)
-
-results_html = """
-<div style="
-    background:#141928;
-    border:1px solid rgba(255,255,255,0.06);
-    border-radius:18px;
-    overflow:hidden;
-">
-<table style="width:100%; border-collapse:collapse; font-size:0.88rem;">
-    <thead>
-        <tr style="background:rgba(249,115,22,0.08); border-bottom:1px solid rgba(249,115,22,0.15);">
-            <th style="padding:0.85rem 1.25rem; text-align:left; color:#64748b;
-                       font-weight:700; text-transform:uppercase; letter-spacing:0.06em; font-size:0.75rem;">
-                Algoritm
-            </th>
-            <th style="padding:0.85rem 1rem; text-align:right; color:#64748b;
-                       font-weight:700; text-transform:uppercase; letter-spacing:0.06em; font-size:0.75rem;">
-                Daromad (£)
-            </th>
-            <th style="padding:0.85rem 1rem; text-align:right; color:#64748b;
-                       font-weight:700; text-transform:uppercase; letter-spacing:0.06em; font-size:0.75rem;">
-                Sodiqlik
-            </th>
-            <th style="padding:0.85rem 1rem; text-align:right; color:#64748b;
-                       font-weight:700; text-transform:uppercase; letter-spacing:0.06em; font-size:0.75rem;">
-                Churn
-            </th>
-            <th style="padding:0.85rem 1rem; text-align:right; color:#64748b;
-                       font-weight:700; text-transform:uppercase; letter-spacing:0.06em; font-size:0.75rem;">
-                HV
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-"""
-
-rows = [
-    ("🔥 PPO",    "#f97316", "38,672 ±1,756", "0.713 ±0.048", "0.083 ±0.021", "0.687", True),
-    ("💜 SAC",    "#a78bfa", "36,141 ±2,478", "0.652 ±0.069", "0.103 ±0.027", "0.589", False),
-    ("🔵 DQN",    "#38bdf8", "34,987 ±2,184", "0.621 ±0.058", "0.124 ±0.029", "0.521", False),
-    ("⬜ Static", "#64748b", "28,134 ±1,478", "0.502 ±0.041", "0.182 ±0.023", "0.214", False),
-]
-
-for i, (name, color, rev, loy, churn, hv, is_best) in enumerate(rows):
-    bg = "rgba(249,115,22,0.06)" if is_best else ("rgba(255,255,255,0.02)" if i % 2 else "transparent")
-    star = " ⭐" if is_best else ""
-    results_html += f"""
-        <tr style="border-bottom:1px solid rgba(255,255,255,0.04); background:{bg};">
-            <td style="padding:0.9rem 1.25rem;">
-                <span style="color:{color}; font-weight:700; font-size:0.95rem;">{name}{star}</span>
-            </td>
-            <td style="padding:0.9rem 1rem; text-align:right; color:#f1f5f9; font-family:'Space Mono',monospace; font-size:0.85rem;">
-                {rev}
-            </td>
-            <td style="padding:0.9rem 1rem; text-align:right; color:#f1f5f9; font-family:'Space Mono',monospace; font-size:0.85rem;">
-                {loy}
-            </td>
-            <td style="padding:0.9rem 1rem; text-align:right; color:#f1f5f9; font-family:'Space Mono',monospace; font-size:0.85rem;">
-                {churn}
-            </td>
-            <td style="padding:0.9rem 1rem; text-align:right; font-family:'Space Mono',monospace; font-size:0.85rem; color:{color};">
-                {hv}
-            </td>
-        </tr>
-    """
-
-results_html += "</tbody></table></div>"
-st.markdown(results_html, unsafe_allow_html=True)
-
-
-# ═══════════════════════════════════════════════════════════════
-# TEXNOLOGIYALAR
-# ═══════════════════════════════════════════════════════════════
-
+# ─── TEXNOLOGIYALAR ─────────────────────────────────────────────
 st.markdown("<br>", unsafe_allow_html=True)
 st.markdown('<h2 class="section-title">🛠️ Texnologiyalar</h2>', unsafe_allow_html=True)
 
 techs = [
-    ("Python 3.10+",      "#3b82f6"),
-    ("PyTorch",           "#ef4444"),
-    ("Stable-Baselines3", "#f97316"),
-    ("Gymnasium",         "#06b6d4"),
-    ("PettingZoo",        "#a855f7"),
-    ("Streamlit",         "#ff4b4b"),
-    ("Plotly",            "#818cf8"),
-    ("Pandas",            "#10b981"),
-    ("SciPy",             "#f59e0b"),
-    ("NumPy",             "#4ade80"),
+    ("Python 3.10+", "#2563eb"), ("PyTorch", "#dc2626"),
+    ("Stable-Baselines3", "#ea580c"), ("Gymnasium", "#0891b2"),
+    ("PettingZoo", "#7c3aed"), ("Streamlit", "#e11d48"),
+    ("Plotly", "#6366f1"), ("Pandas", "#059669"),
+    ("SciPy", "#d97706"), ("NumPy", "#16a34a"),
 ]
-
-tech_html = '<div style="display:flex; flex-wrap:wrap; gap:0.6rem; margin-top:0.25rem;">'
-for tech, color in techs:
-    tech_html += f"""
-    <div style="
-        background: rgba(255,255,255,0.03);
-        border: 1px solid {color}30;
-        color: {color};
-        padding: 0.4rem 0.9rem;
-        border-radius: 8px;
-        font-weight: 600;
-        font-size: 0.82rem;
-        letter-spacing: 0.01em;
-    ">{tech}</div>
-    """
-tech_html += "</div>"
-st.markdown(tech_html, unsafe_allow_html=True)
+th = '<div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.25rem;">'
+for name, col in techs:
+    th += (f'<div style="background:#ffffff;border:1px solid {col}30;color:{col};'
+           f'padding:0.35rem 0.85rem;border-radius:8px;font-weight:600;font-size:0.8rem;">'
+           f'{name}</div>')
+th += "</div>"
+st.markdown(th, unsafe_allow_html=True)
 
 
-# ═══════════════════════════════════════════════════════════════
-# FOOTER
-# ═══════════════════════════════════════════════════════════════
-
+# ─── FOOTER ─────────────────────────────────────────────────────
 st.markdown("""
 <div class="footer">
-    <strong style="color:#475569;">Multi-Agent Dynamic Pricing System</strong><br>
-    Toshkent Davlat Iqtisodiyot Universiteti · Data Science · 2026<br>
-    <span style="color:#1e293b; font-size:0.72rem;">
-        Built with Reinforcement Learning · PPO · DQN · SAC
-    </span>
+  <strong style="color:#78716c;">Multi-Agent Dynamic Pricing System</strong><br>
+  Toshkent Davlat Iqtisodiyot Universiteti · Data Science · 2026<br>
+  <span style="color:#d6d3d1;">PPO · DQN · SAC · Gymnasium · PettingZoo</span>
 </div>
 """, unsafe_allow_html=True)

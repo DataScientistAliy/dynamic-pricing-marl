@@ -283,408 +283,335 @@ def get_color_palette() -> Dict[str, str]:
     """
     return {
         # Algoritm ranglari — issiq, yorqin tona
-        "PPO": "#f97316",       # qoʻngʻir-toʻq sariq (eng yaxshi algoritm)
-        "SAC": "#a78bfa",       # yengil binafsha
-        "DQN": "#38bdf8",       # osmon koʻki
-        "Static": "#94a3b8",    # sovuq kulrang
+        "PPO": "#ea580c",       # to'q apelsin (eng yaxshi algoritm)
+        "SAC": "#7c3aed",       # binafsha
+        "DQN": "#0284c7",       # okean ko'ki
+        "Static": "#78716c",    # issiq kulrang
         # UI brand ranglari
         "primary": "#f97316",
         "secondary": "#eab308",
-        "accent": "#ec4899",
-        "background": "#0b0e1a",
-        "card_bg": "#141928",
-        "text": "#f1f5f9",
-        "text_muted": "#94a3b8",
-        "success": "#4ade80",
-        "warning": "#facc15",
-        "danger": "#f87171",
+        "accent": "#dc2626",
+        "background": "#fffaf5",
+        "card_bg": "#ffffff",
+        "text": "#1c1917",
+        "text_muted": "#78716c",
+        "success": "#16a34a",
+        "warning": "#d97706",
+        "danger": "#dc2626",
     }
 
 
 def create_custom_css() -> str:
     """
-    Streamlit uchun zamonaviy custom CSS qaytarish.
+    Streamlit uchun yorqin ochiq rangdagi custom CSS.
 
-    Yorqin, original dizayn — issiq ranglarda, kuchli tipografiya.
+    Iliq oq/krem fon, apelsin aksent, aniq kartalar.
     """
     return """
     <style>
-    /* ═══════════ Shriftlar ═══════════ */
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
     html, body, [class*="css"] {
-        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
+        font-family: 'Plus Jakarta Sans', -apple-system, sans-serif !important;
     }
 
-    /* ═══════════ Fon ═══════════ */
     .stApp {
-        background: #0b0e1a;
+        background: #fffaf5;
         background-image:
-            radial-gradient(ellipse 80% 50% at 20% 0%, rgba(249,115,22,0.12) 0%, transparent 55%),
-            radial-gradient(ellipse 60% 40% at 80% 100%, rgba(167,139,250,0.10) 0%, transparent 50%);
+            radial-gradient(ellipse 70% 40% at 100% 0%, rgba(249,115,22,0.07) 0%, transparent 60%),
+            radial-gradient(ellipse 50% 30% at 0% 100%, rgba(234,179,8,0.05) 0%, transparent 50%);
     }
 
-    /* ═══════════ Sidebar ═══════════ */
+    .main .block-container {
+        padding-top: 1.5rem;
+        padding-bottom: 3rem;
+    }
+
     section[data-testid="stSidebar"] {
-        background: #080b14;
-        border-right: 1px solid rgba(249, 115, 22, 0.18);
+        background: #fff7ed;
+        border-right: 2px solid #fed7aa;
     }
 
-    section[data-testid="stSidebar"] .stMarkdown,
-    section[data-testid="stSidebar"] label {
-        color: #e2e8f0 !important;
+    section[data-testid="stSidebar"] .stMarkdown p {
+        color: #44403c !important;
     }
 
     section[data-testid="stSidebar"] hr {
-        border-color: rgba(249,115,22,0.15);
+        border-color: #fed7aa;
+        margin: 0.75rem 0;
     }
 
-    /* ═══════════ Hero sarlavha ═══════════ */
     .hero-title {
-        background: linear-gradient(125deg, #f97316 0%, #facc15 45%, #fb923c 100%);
+        background: linear-gradient(125deg, #ea580c 0%, #f97316 50%, #d97706 100%);
         background-clip: text;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         font-weight: 800;
-        font-size: 3.2rem;
+        font-size: 3rem;
         line-height: 1.1;
-        margin-bottom: 0.5rem;
+        margin: 0.5rem 0;
         letter-spacing: -0.025em;
     }
 
     .hero-subtitle {
-        color: #94a3b8;
-        font-size: 1.15rem;
+        color: #78716c;
+        font-size: 1.05rem;
         font-weight: 400;
-        margin-bottom: 2rem;
         line-height: 1.7;
     }
 
     .section-title {
-        color: #f1f5f9;
+        color: #1c1917;
         font-weight: 700;
-        font-size: 1.75rem;
-        margin: 2rem 0 0.75rem 0;
+        font-size: 1.5rem;
+        margin: 2rem 0 0.6rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #ffedd5;
         display: flex;
         align-items: center;
         gap: 0.5rem;
     }
 
-    .section-title::after {
-        content: '';
-        flex: 1;
-        height: 2px;
-        background: linear-gradient(90deg, rgba(249,115,22,0.6), transparent);
-        margin-left: 0.75rem;
-        border-radius: 2px;
-    }
-
-    /* ═══════════ Metric kartochka ═══════════ */
     .metric-card {
-        background: #141928;
-        border-radius: 18px;
-        padding: 1.5rem 1.75rem;
-        margin: 0.4rem 0;
-        border: 1px solid rgba(255,255,255,0.06);
-        border-bottom: 3px solid transparent;
-        transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 1.4rem 1.6rem;
+        margin: 0.3rem 0;
+        border: 1px solid #ffedd5;
+        border-left: 4px solid #f97316;
+        box-shadow: 0 2px 12px rgba(249,115,22,0.08);
+        transition: transform 0.22s ease, box-shadow 0.22s ease;
         position: relative;
-        overflow: hidden;
-    }
-
-    .metric-card::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(145deg, rgba(249,115,22,0.05) 0%, transparent 60%);
-        pointer-events: none;
     }
 
     .metric-card:hover {
-        transform: translateY(-5px);
-        border-bottom-color: #f97316;
-        box-shadow: 0 16px 40px rgba(249, 115, 22, 0.18);
+        transform: translateY(-4px);
+        box-shadow: 0 10px 28px rgba(249,115,22,0.15);
     }
 
     .metric-label {
-        color: #64748b;
-        font-size: 0.78rem;
-        font-weight: 600;
+        color: #a8a29e;
+        font-size: 0.75rem;
+        font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.08em;
-        margin-bottom: 0.6rem;
+        margin-bottom: 0.5rem;
     }
 
     .metric-value {
-        color: #f97316;
-        font-size: 2.4rem;
+        color: #ea580c;
+        font-size: 2.2rem;
         font-weight: 800;
         line-height: 1;
-        margin-bottom: 0.35rem;
-        font-family: 'Space Mono', monospace !important;
+        margin-bottom: 0.3rem;
+        font-family: 'Space Grotesk', sans-serif !important;
     }
 
     .metric-delta-up {
-        color: #4ade80;
-        font-size: 0.82rem;
+        color: #16a34a;
+        font-size: 0.8rem;
         font-weight: 600;
     }
 
     .metric-delta-down {
-        color: #f87171;
-        font-size: 0.82rem;
+        color: #dc2626;
+        font-size: 0.8rem;
         font-weight: 600;
     }
 
-    /* ═══════════ Tugmalar ═══════════ */
     .stButton > button {
         background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-        color: #fff;
+        color: #ffffff;
         border: none;
-        border-radius: 12px;
-        padding: 0.7rem 1.75rem;
+        border-radius: 10px;
+        padding: 0.65rem 1.5rem;
         font-weight: 700;
-        font-size: 0.95rem;
-        letter-spacing: 0.01em;
-        transition: all 0.22s ease;
-        box-shadow: 0 4px 16px rgba(249,115,22,0.3);
+        font-size: 0.92rem;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 14px rgba(249,115,22,0.28);
     }
 
     .stButton > button:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 28px rgba(249,115,22,0.45);
-        background: linear-gradient(135deg, #fb923c 0%, #f97316 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 22px rgba(249,115,22,0.4);
     }
 
-    .stButton > button:active {
-        transform: translateY(0px);
-    }
-
-    /* ═══════════ Tablar ═══════════ */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 6px;
-        background: #141928;
-        padding: 0.5rem 0.6rem;
-        border-radius: 14px;
-        border: 1px solid rgba(249,115,22,0.12);
+        gap: 4px;
+        background: #fff7ed;
+        padding: 0.4rem;
+        border-radius: 12px;
+        border: 1px solid #fed7aa;
     }
 
     .stTabs [data-baseweb="tab"] {
         background: transparent;
-        color: #64748b;
-        border-radius: 10px;
-        padding: 0.55rem 1.1rem;
+        color: #a8a29e;
+        border-radius: 8px;
+        padding: 0.5rem 1rem;
         font-weight: 600;
-        font-size: 0.88rem;
-        transition: all 0.18s ease;
+        font-size: 0.86rem;
+        transition: all 0.15s ease;
     }
 
     .stTabs [data-baseweb="tab"]:hover {
-        background: rgba(249,115,22,0.08);
-        color: #f1f5f9;
+        background: rgba(249,115,22,0.07);
+        color: #1c1917;
     }
 
     .stTabs [aria-selected="true"] {
-        background: linear-gradient(135deg, rgba(249,115,22,0.22), rgba(234,91,12,0.18)) !important;
-        color: #fb923c !important;
-        border: 1px solid rgba(249,115,22,0.35);
+        background: #ffffff !important;
+        color: #ea580c !important;
+        border: 1px solid #fed7aa;
+        box-shadow: 0 2px 8px rgba(249,115,22,0.12);
     }
 
-    /* ═══════════ DataFrame ═══════════ */
     .stDataFrame {
-        border-radius: 14px;
+        border-radius: 12px;
         overflow: hidden;
-        border: 1px solid rgba(249,115,22,0.12);
+        border: 1px solid #ffedd5;
     }
 
-    /* ═══════════ Slider ═══════════ */
-    .stSlider [data-baseweb="slider"] [role="slider"] {
-        background: #f97316;
-        border: 2px solid #0b0e1a;
-        box-shadow: 0 0 12px rgba(249,115,22,0.5);
-    }
-
-    /* ═══════════ Selectbox ═══════════ */
     .stSelectbox > div > div {
-        background: #141928;
-        border: 1px solid rgba(249,115,22,0.2);
+        background: #ffffff;
+        border: 1px solid #fed7aa;
         border-radius: 10px;
-        color: #f1f5f9;
+        color: #1c1917;
     }
 
-    /* ═══════════ Agent kartochka ═══════════ */
     .agent-card {
-        background: #141928;
-        border: 1px solid rgba(255,255,255,0.07);
-        border-radius: 20px;
-        padding: 2rem 1.75rem;
-        margin: 0.5rem 0;
-        transition: all 0.28s ease;
+        background: #ffffff;
+        border: 1px solid #ffedd5;
+        border-radius: 16px;
+        padding: 1.75rem 1.5rem;
+        margin: 0.4rem 0;
+        transition: all 0.25s ease;
         height: 100%;
         position: relative;
         overflow: hidden;
-    }
-
-    .agent-card::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: linear-gradient(90deg, #f97316, #facc15);
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.3s ease;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.04);
     }
 
     .agent-card:hover {
-        border-color: rgba(249,115,22,0.3);
-        transform: translateY(-5px);
-        box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-    }
-
-    .agent-card:hover::after {
-        transform: scaleX(1);
+        border-color: #f97316;
+        transform: translateY(-4px);
+        box-shadow: 0 12px 32px rgba(249,115,22,0.12);
     }
 
     .agent-icon {
-        font-size: 2.75rem;
-        margin-bottom: 1rem;
+        font-size: 2.5rem;
+        margin-bottom: 0.9rem;
         display: block;
         line-height: 1;
     }
 
     .agent-title {
-        color: #f1f5f9;
-        font-size: 1.2rem;
+        color: #1c1917;
+        font-size: 1.1rem;
         font-weight: 700;
-        margin-bottom: 0.6rem;
+        margin-bottom: 0.5rem;
     }
 
     .agent-description {
-        color: #94a3b8;
-        font-size: 0.88rem;
+        color: #78716c;
+        font-size: 0.86rem;
         line-height: 1.65;
     }
 
-    /* ═══════════ Badge ═══════════ */
     .badge {
         display: inline-block;
-        padding: 0.2rem 0.65rem;
+        padding: 0.18rem 0.6rem;
         border-radius: 6px;
-        font-size: 0.72rem;
+        font-size: 0.7rem;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.06em;
     }
 
     .badge-success {
-        background: rgba(74,222,128,0.12);
-        color: #4ade80;
-        border: 1px solid rgba(74,222,128,0.25);
+        background: #dcfce7;
+        color: #16a34a;
+        border: 1px solid #bbf7d0;
     }
 
     .badge-info {
-        background: rgba(249,115,22,0.12);
-        color: #fb923c;
-        border: 1px solid rgba(249,115,22,0.25);
+        background: #fff7ed;
+        color: #ea580c;
+        border: 1px solid #fed7aa;
     }
 
     .badge-warning {
-        background: rgba(250,204,21,0.12);
-        color: #facc15;
-        border: 1px solid rgba(250,204,21,0.25);
+        background: #fefce8;
+        color: #d97706;
+        border: 1px solid #fde68a;
     }
 
     .badge-purple {
-        background: rgba(167,139,250,0.12);
-        color: #a78bfa;
-        border: 1px solid rgba(167,139,250,0.25);
+        background: #f5f3ff;
+        color: #7c3aed;
+        border: 1px solid #ddd6fe;
     }
 
-    /* ═══════════ Footer ═══════════ */
     .footer {
         text-align: center;
-        color: #334155;
+        color: #d6d3d1;
         padding: 2.5rem 0 1rem;
         margin-top: 4rem;
-        border-top: 1px solid rgba(249,115,22,0.1);
-        font-size: 0.82rem;
+        border-top: 1px solid #ffedd5;
+        font-size: 0.8rem;
     }
 
-    /* ═══════════ Streamlit elementlarini yashirish ═══════════ */
     #MainMenu { visibility: hidden; }
     footer { visibility: hidden; }
+
     header[data-testid="stHeader"] {
-        background: rgba(11, 14, 26, 0.85);
+        background: rgba(255,250,245,0.9);
+        border-bottom: 1px solid #ffedd5;
     }
 
-    /* ═══════════ Scrollbar ═══════════ */
-    ::-webkit-scrollbar { width: 8px; height: 8px; }
-    ::-webkit-scrollbar-track { background: #0b0e1a; }
+    ::-webkit-scrollbar { width: 7px; height: 7px; }
+    ::-webkit-scrollbar-track { background: #fff7ed; }
     ::-webkit-scrollbar-thumb {
-        background: linear-gradient(180deg, #f97316, #facc15);
+        background: linear-gradient(180deg, #f97316, #fbbf24);
         border-radius: 8px;
     }
-    ::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(180deg, #fb923c, #fde047);
-    }
 
-    /* ═══════════ Animatsiyalar ═══════════ */
     @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(22px); }
+        from { opacity: 0; transform: translateY(18px); }
         to   { opacity: 1; transform: translateY(0); }
     }
+    .fade-in-up { animation: fadeInUp 0.5s ease-out forwards; }
 
-    .fade-in-up { animation: fadeInUp 0.55s ease-out forwards; }
-
-    @keyframes shimmer {
-        0%   { background-position: -200% center; }
-        100% { background-position:  200% center; }
-    }
-
-    .shimmer-text {
-        background: linear-gradient(90deg, #f97316 0%, #facc15 30%, #fb923c 60%, #f97316 100%);
-        background-size: 200% auto;
-        background-clip: text;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: shimmer 3s linear infinite;
-    }
-
-    /* ═══════════ Info qutisi ═══════════ */
     .info-box {
-        background: rgba(249,115,22,0.06);
+        background: #fff7ed;
         border-left: 4px solid #f97316;
-        border-radius: 0 12px 12px 0;
-        padding: 1rem 1.25rem;
-        margin: 1rem 0;
-        color: #e2e8f0;
+        border-radius: 0 10px 10px 0;
+        padding: 0.9rem 1.1rem;
+        margin: 0.75rem 0;
+        color: #44403c;
     }
 
     .warning-box {
-        background: rgba(250,204,21,0.06);
-        border-left: 4px solid #facc15;
-        border-radius: 0 12px 12px 0;
-        padding: 1rem 1.25rem;
-        margin: 1rem 0;
-        color: #e2e8f0;
+        background: #fefce8;
+        border-left: 4px solid #d97706;
+        border-radius: 0 10px 10px 0;
+        padding: 0.9rem 1.1rem;
+        margin: 0.75rem 0;
+        color: #44403c;
     }
 
-    /* ═══════════ Stat row (hero ichidagi) ═══════════ */
     .stat-chip {
         display: inline-flex;
         align-items: center;
-        gap: 0.4rem;
-        background: rgba(255,255,255,0.1);
-        border: 1px solid rgba(255,255,255,0.18);
+        gap: 0.35rem;
+        background: rgba(255,255,255,0.25);
+        border: 1px solid rgba(255,255,255,0.4);
         border-radius: 50px;
-        padding: 0.4rem 1rem;
-        font-size: 0.88rem;
+        padding: 0.35rem 0.9rem;
+        font-size: 0.85rem;
         font-weight: 600;
         color: #fff;
-        margin: 0.25rem;
+        margin: 0.2rem;
     }
     </style>
     """
@@ -707,7 +634,7 @@ def format_percentage(value: float, decimals: int = 1) -> str:
 
 def get_plotly_template() -> Dict[str, Any]:
     """
-    Barcha plotly grafiklari uchun bir xil zamonaviy template.
+    Barcha plotly grafiklari uchun bir xil ochiq rang template.
 
     Returns
     -------
@@ -718,48 +645,143 @@ def get_plotly_template() -> Dict[str, Any]:
     return {
         "layout": {
             "paper_bgcolor": "rgba(0,0,0,0)",
-            "plot_bgcolor": "rgba(20, 25, 40, 0.5)",
+            "plot_bgcolor": "rgba(255,247,237,0.6)",
             "font": {
                 "family": "Plus Jakarta Sans, -apple-system, sans-serif",
                 "color": colors["text"],
                 "size": 13,
             },
             "xaxis": {
-                "gridcolor": "rgba(100, 116, 139, 0.12)",
-                "zerolinecolor": "rgba(100, 116, 139, 0.2)",
+                "gridcolor": "rgba(214,211,208,0.6)",
+                "zerolinecolor": "rgba(214,211,208,0.8)",
                 "color": colors["text_muted"],
-                "linecolor": "rgba(100,116,139,0.2)",
+                "linecolor": "rgba(214,211,208,0.6)",
             },
             "yaxis": {
-                "gridcolor": "rgba(100, 116, 139, 0.12)",
-                "zerolinecolor": "rgba(100, 116, 139, 0.2)",
+                "gridcolor": "rgba(214,211,208,0.6)",
+                "zerolinecolor": "rgba(214,211,208,0.8)",
                 "color": colors["text_muted"],
-                "linecolor": "rgba(100,116,139,0.2)",
+                "linecolor": "rgba(214,211,208,0.6)",
             },
             "legend": {
-                "bgcolor": "rgba(11, 14, 26, 0.75)",
-                "bordercolor": "rgba(249, 115, 22, 0.2)",
+                "bgcolor": "rgba(255,247,237,0.9)",
+                "bordercolor": "#fed7aa",
                 "borderwidth": 1,
                 "font": {"color": colors["text"]},
             },
             "colorway": [
-                colors["PPO"],   # f97316 orange
-                colors["DQN"],   # 38bdf8 sky blue
-                colors["SAC"],   # a78bfa purple
-                colors["Static"],# 94a3b8 gray
-                "#f472b6",       # pink
-                "#34d399",       # emerald
-                "#60a5fa",       # blue
-                "#fbbf24",       # amber
+                colors["PPO"],    # ea580c orange
+                colors["DQN"],    # 0284c7 blue
+                colors["SAC"],    # 7c3aed purple
+                colors["Static"], # 78716c gray
+                "#db2777",        # pink
+                "#059669",        # emerald
+                "#0891b2",        # cyan
+                "#d97706",        # amber
             ],
             "margin": {"l": 55, "r": 25, "t": 55, "b": 45},
             "hoverlabel": {
-                "bgcolor": "#141928",
+                "bgcolor": "#ffffff",
                 "bordercolor": "#f97316",
-                "font": {"color": "#f1f5f9", "family": "Plus Jakarta Sans"},
+                "font": {"color": "#1c1917", "family": "Plus Jakarta Sans"},
             },
         }
     }
+
+
+def show_progress_sidebar(current_step: int = 0) -> None:
+    """
+    Sidebar da ulanuvchi step indicator ko'rsatish.
+
+    Parameters
+    ----------
+    current_step : int
+        Joriy sahifa raqami:
+        0=Bosh sahifa, 1=EDA, 2=Simulatsiya, 3=Natijalar,
+        4=Statistik Tahlil, 5=Tavsiyalar
+    """
+    import streamlit as st  # lokal import — circular dependency oldini olish
+
+    steps = [
+        ("🏠", "Bosh Sahifa",      "Loyiha ko'rinishi"),
+        ("📊", "EDA va Dataset",    "Ma'lumotlar tahlili"),
+        ("🤖", "RL Simulatsiya",    "Interaktiv demo"),
+        ("📈", "Natijalar",         "Taqqoslash"),
+        ("🔬", "Statistik Tahlil",  "Testlar & effekt"),
+        ("🗺️", "Tavsiyalar",         "Yo'l xaritasi"),
+    ]
+
+    html_parts = ['<div style="padding:0.25rem 0;">']
+
+    for i, (icon, name, desc) in enumerate(steps):
+        is_active = i == current_step
+        is_done   = i < current_step
+        is_future = i > current_step
+
+        if is_active:
+            dot_bg     = "#f97316"
+            dot_border = "#f97316"
+            has_inner  = True
+            inner_col  = "#ffffff"
+            label_col  = "#1c1917"
+            desc_col   = "#78716c"
+            fw         = "700"
+            glow       = "box-shadow:0 0 0 3px rgba(249,115,22,0.2);"
+        elif is_done:
+            dot_bg     = "#fed7aa"
+            dot_border = "#f97316"
+            has_inner  = True
+            inner_col  = "#f97316"
+            label_col  = "#78716c"
+            desc_col   = "#a8a29e"
+            fw         = "600"
+            glow       = ""
+        else:
+            dot_bg     = "#ffffff"
+            dot_border = "#d6d3d1"
+            has_inner  = False
+            inner_col  = ""
+            label_col  = "#a8a29e"
+            desc_col   = "#d6d3d1"
+            fw         = "400"
+            glow       = ""
+
+        inner_html = (
+            f'<div style="width:6px;height:6px;border-radius:50%;background:{inner_col};"></div>'
+            if has_inner else ""
+        )
+
+        is_last = i == len(steps) - 1
+        line_color = "#f97316" if is_done else "#e7e5e4"
+        line_html = (
+            ""
+            if is_last
+            else f'<div style="width:2px;height:28px;background:{line_color};'
+                 f'margin:3px 0;border-radius:2px;flex-shrink:0;"></div>'
+        )
+
+        label_bg = "background:rgba(249,115,22,0.07);border-radius:8px;padding:0.2rem 0.5rem;" if is_active else ""
+
+        html_parts.append(f"""
+        <div style="display:flex;align-items:flex-start;gap:0.75rem;">
+          <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0;padding-top:2px;">
+            <div style="width:16px;height:16px;border-radius:50%;background:{dot_bg};
+                        border:2px solid {dot_border};{glow}
+                        display:flex;align-items:center;justify-content:center;">
+              {inner_html}
+            </div>
+            {line_html}
+          </div>
+          <div style="padding-bottom:{'0' if is_last else '0.3rem'};">
+            <div style="color:{label_col};font-size:0.82rem;font-weight:{fw};
+                        line-height:1.3;{label_bg}">{icon} {name}</div>
+            <div style="color:{desc_col};font-size:0.7rem;line-height:1.2;margin-top:1px;">{desc}</div>
+          </div>
+        </div>
+        """)
+
+    html_parts.append("</div>")
+    st.markdown("".join(html_parts), unsafe_allow_html=True)
 
 
 def generate_sample_csv(n_rows: int = 1000, seed: int = 42) -> "pd.DataFrame":  # type: ignore[name-defined]
