@@ -693,95 +693,66 @@ def show_progress_sidebar(current_step: int = 0) -> None:
     """
     Sidebar da ulanuvchi step indicator ko'rsatish.
 
-    Parameters
-    ----------
-    current_step : int
-        Joriy sahifa raqami:
-        0=Bosh sahifa, 1=EDA, 2=Simulatsiya, 3=Natijalar,
-        4=Statistik Tahlil, 5=Tavsiyalar
+    current_step: 0=Bosh, 1=EDA, 2=Simulatsiya, 3=Natijalar,
+                  4=Statistik Tahlil, 5=Tavsiyalar
     """
-    import streamlit as st  # lokal import — circular dependency oldini olish
+    import streamlit as st
 
     steps = [
-        ("🏠", "Bosh Sahifa",      "Loyiha ko'rinishi"),
-        ("📊", "EDA va Dataset",    "Ma'lumotlar tahlili"),
-        ("🤖", "RL Simulatsiya",    "Interaktiv demo"),
-        ("📈", "Natijalar",         "Taqqoslash"),
-        ("🔬", "Statistik Tahlil",  "Testlar & effekt"),
-        ("🗺️", "Tavsiyalar",         "Yo'l xaritasi"),
+        ("🏠", "Bosh Sahifa",     "Loyiha ko'rinishi"),
+        ("📊", "EDA va Dataset",   "Ma'lumotlar tahlili"),
+        ("🤖", "RL Simulatsiya",   "Interaktiv demo"),
+        ("📈", "Natijalar",        "Taqqoslash"),
+        ("🔬", "Statistik Tahlil", "Testlar & effekt"),
+        ("🗺️", "Tavsiyalar",        "Yo'l xaritasi"),
     ]
-
-    html_parts = ['<div style="padding:0.25rem 0;">']
 
     for i, (icon, name, desc) in enumerate(steps):
         is_active = i == current_step
         is_done   = i < current_step
-        is_future = i > current_step
+        is_last   = i == len(steps) - 1
 
+        # Rang va stil tanlash
         if is_active:
-            dot_bg     = "#f97316"
-            dot_border = "#f97316"
-            has_inner  = True
-            inner_col  = "#ffffff"
-            label_col  = "#1c1917"
-            desc_col   = "#78716c"
-            fw         = "700"
-            glow       = "box-shadow:0 0 0 3px rgba(249,115,22,0.2);"
+            dot = "●"
+            dot_col   = "#f97316"
+            text_col  = "#1c1917"
+            desc_col  = "#78716c"
+            fw        = "700"
+            item_bg   = "background:#fff7ed;border-radius:8px;border-left:3px solid #f97316;"
         elif is_done:
-            dot_bg     = "#fed7aa"
-            dot_border = "#f97316"
-            has_inner  = True
-            inner_col  = "#f97316"
-            label_col  = "#78716c"
-            desc_col   = "#a8a29e"
-            fw         = "600"
-            glow       = ""
+            dot = "✓"
+            dot_col   = "#f97316"
+            text_col  = "#78716c"
+            desc_col  = "#a8a29e"
+            fw        = "600"
+            item_bg   = ""
         else:
-            dot_bg     = "#ffffff"
-            dot_border = "#d6d3d1"
-            has_inner  = False
-            inner_col  = ""
-            label_col  = "#a8a29e"
-            desc_col   = "#d6d3d1"
-            fw         = "400"
-            glow       = ""
+            dot = "○"
+            dot_col   = "#d6d3d1"
+            text_col  = "#a8a29e"
+            desc_col  = "#d6d3d1"
+            fw        = "400"
+            item_bg   = ""
 
-        inner_html = (
-            f'<div style="width:6px;height:6px;border-radius:50%;background:{inner_col};"></div>'
-            if has_inner else ""
+        # Har bir qadam — bitta qatorli HTML (newline yo'q)
+        st.markdown(
+            f'<div style="display:flex;align-items:center;gap:8px;{item_bg}padding:5px 7px;margin:1px 0;">'
+            f'<span style="color:{dot_col};font-size:13px;font-weight:700;flex-shrink:0;">{dot}</span>'
+            f'<div style="min-width:0;">'
+            f'<div style="color:{text_col};font-size:0.82rem;font-weight:{fw};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{icon} {name}</div>'
+            f'<div style="color:{desc_col};font-size:0.68rem;">{desc}</div>'
+            f'</div></div>',
+            unsafe_allow_html=True,
         )
 
-        is_last = i == len(steps) - 1
-        line_color = "#f97316" if is_done else "#e7e5e4"
-        line_html = (
-            ""
-            if is_last
-            else f'<div style="width:2px;height:28px;background:{line_color};'
-                 f'margin:3px 0;border-radius:2px;flex-shrink:0;"></div>'
-        )
-
-        label_bg = "background:rgba(249,115,22,0.07);border-radius:8px;padding:0.2rem 0.5rem;" if is_active else ""
-
-        html_parts.append(f"""
-        <div style="display:flex;align-items:flex-start;gap:0.75rem;">
-          <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0;padding-top:2px;">
-            <div style="width:16px;height:16px;border-radius:50%;background:{dot_bg};
-                        border:2px solid {dot_border};{glow}
-                        display:flex;align-items:center;justify-content:center;">
-              {inner_html}
-            </div>
-            {line_html}
-          </div>
-          <div style="padding-bottom:{'0' if is_last else '0.3rem'};">
-            <div style="color:{label_col};font-size:0.82rem;font-weight:{fw};
-                        line-height:1.3;{label_bg}">{icon} {name}</div>
-            <div style="color:{desc_col};font-size:0.7rem;line-height:1.2;margin-top:1px;">{desc}</div>
-          </div>
-        </div>
-        """)
-
-    html_parts.append("</div>")
-    st.markdown("".join(html_parts), unsafe_allow_html=True)
+        # Ulovchi chiziq (oxirgi elementdan keyin chiziq yo'q)
+        if not is_last:
+            line_col = "#fed7aa" if is_done else "#e7e5e4"
+            st.markdown(
+                f'<div style="margin-left:13px;border-left:2px solid {line_col};height:14px;"></div>',
+                unsafe_allow_html=True,
+            )
 
 
 def generate_sample_csv(n_rows: int = 1000, seed: int = 42) -> "pd.DataFrame":  # type: ignore[name-defined]
